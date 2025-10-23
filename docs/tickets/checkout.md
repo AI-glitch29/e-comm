@@ -35,11 +35,10 @@ See attached: `checkout-ui-reference.png`
 - [ ] Form validation displays errors on submit
 
 ### Payment Section (use shadcn components)
-- [ ] Card number input with visual card brand detection (Visa, Mastercard, Amex icons)
-- [ ] Expiration date input (MM/YY format with placeholder)
-- [ ] Security code (CVC) input with info icon tooltip
-- [ ] Card brand icons display in card number field
-- [ ] Input masking/formatting for card number and expiration
+- [ ] Card number input (simple text input, no brand detection)
+- [ ] Expiration date input (simple text input with MM/YY placeholder)
+- [ ] Security code (CVC) input (simple text input)
+- [ ] Basic validation only (required fields, no complex card validation)
 
 ### Order Summary Panel
 - [ ] Display cart items with product image, name, and price
@@ -63,6 +62,8 @@ See attached: `checkout-ui-reference.png`
 
 ## 🛠️ Technical Requirements
 
+**MVP Approach:** Keep it simple - no external validation libraries, hardcoded countries, basic form validation only.
+
 ### New Files to Create
 ```
 /app/checkout/
@@ -78,9 +79,9 @@ See attached: `checkout-ui-reference.png`
 ### Dependencies
 - **Existing:** `store/cart.ts` (read cart items, update quantities)
 - **Existing:** `lib/types.ts` (Product, CartLineItem types)
-- **All shadcn components already installed in ui folder
-- **Form library:** `react-hook-form` + `zod` for validation
-- **Card input:** simple using shadcn components
+- **Existing:** shadcn components already installed in ui folder
+- **Form library:** `react-hook-form` + `zod` for basic validation (required fields only)
+- **Countries:** Hardcoded list in `/lib/countries.ts` (simple array of country names)
 
 ### Type Definitions
 ```typescript
@@ -135,10 +136,9 @@ export type ShippingMethod = {
 - Proper input types (`type="tel"` for phone, etc.)
 
 ### Payment Section
-- Card number field shows card brand icons inline
-- Visual feedback for detected card type
-- Masked input formatting (XXXX XXXX XXXX XXXX)
-- CVC tooltip explains security code location
+- Simple text inputs for card number, expiration, and CVC
+- Basic placeholder text for guidance
+- Standard input styling matching other form fields
 
 ### Order Summary
 - Product images: Small thumbnail format
@@ -155,12 +155,15 @@ export type ShippingMethod = {
 
 ### Out of Scope (for now)
 - ❌ Actual payment processing (Stripe/PayPal integration)
+- ❌ Card number validation (Luhn algorithm, brand detection, etc.)
+- ❌ Input masking/formatting libraries
 - ❌ Backend API for order submission
 - ❌ Email confirmation
 - ❌ Order history/tracking
 - ❌ Multi-step checkout wizard
 - ❌ Guest vs. authenticated user flow
 - ❌ Address autocomplete/validation
+- ❌ Country API/database (use simple hardcoded array)
 
 ### Future Enhancements
 - Add promo code/discount input
