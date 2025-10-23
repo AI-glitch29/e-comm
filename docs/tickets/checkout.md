@@ -120,6 +120,15 @@ export type ShippingMethod = {
 - Follow existing blue theme (`bg-blue-600`) for buttons
 - Match glassmorphism patterns from AppShell header
 
+**⚠️ CRITICAL: Zustand Store Pattern**
+- **DO NOT** use `useCartStore((s) => s.getItems())` directly - this causes infinite loops
+- **CORRECT PATTERN:** Select stable `items` map, then derive array with `useMemo`:
+  ```typescript
+  const itemsMap = useCartStore((s) => s.items)
+  const items = useMemo(() => Object.values(itemsMap), [itemsMap])
+  ```
+- Same pattern applies to `getSubtotal()` - derive it from memoized items array
+
 ## 🎨 UI/UX Guidelines
 
 ### Layout
