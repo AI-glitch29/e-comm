@@ -119,6 +119,7 @@ export type ShippingMethod = {
 - Use existing `formatPrice()` utility for currency display
 - Follow existing blue theme (`bg-blue-600`) for buttons
 - Match glassmorphism patterns from AppShell header
+- localhost is already running
 
 **⚠️ CRITICAL: Zustand Store Pattern**
 - **DO NOT** use `useCartStore((s) => s.getItems())` directly - this causes infinite loops
@@ -128,6 +129,16 @@ export type ShippingMethod = {
   const items = useMemo(() => Object.values(itemsMap), [itemsMap])
   ```
 - Same pattern applies to `getSubtotal()` - derive it from memoized items array
+
+**⚠️ CRITICAL: Navigation Pattern**
+- **DO NOT** use `window.location.href = "/checkout"` - this causes full page reload and resets the cart store
+- **CORRECT PATTERN:** Use Next.js router for client-side navigation:
+  ```typescript
+  import { useRouter } from "next/navigation"
+  const router = useRouter()
+  router.push("/checkout")
+  ```
+- This keeps the Zustand store in memory without resetting
 
 ## 🎨 UI/UX Guidelines
 
